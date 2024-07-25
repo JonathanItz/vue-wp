@@ -17,6 +17,7 @@
     "license": "MIT",
     "homepage": "https://github.com/boxybird/wordpress-inertia-starter-theme#readme",
     "devDependencies": {
+        "@tailwindcss/forms": "^0.5.7",
         "autoprefixer": "^10.4.19",
         "laravel-mix": "^6.0.43",
         "postcss": "^8.4.40",

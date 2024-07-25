@@ -14,5 +14,3 @@ import { Link, usePage } from '@inertiajs/inertia-vue3'
 
 const { props } = usePage()
 </script>
-
-<style></style>
