@@ -1,0 +1,38 @@
+<?php
+
+use BoxyBird\Inertia\Inertia;
+
+require_once __DIR__ . '/vendor/autoload.php';
+
+// Enqueue scripts.
+add_action('wp_enqueue_scripts', function () {
+    $version = md5_file(get_stylesheet_directory() . '/dist/mix-manifest.json');
+
+    $hot = __DIR__.'/dist/hot';
+    if(file_exists($hot)) {
+        $hotPath = file_get_contents($hot);
+        wp_enqueue_script('bb_theme', $hotPath . '/app.js', [], $version, true);
+        wp_enqueue_style('main-styles', $hotPath . '/main.css', array(), filemtime(get_template_directory() . '/dist/main.css'), false);
+    } else {
+        wp_enqueue_script('bb_theme', get_stylesheet_directory_uri() . '/dist/app.js', [], $version, true);
+        wp_enqueue_style('main-styles', get_template_directory_uri() . '/dist/main.css', array(), filemtime(get_template_directory() . '/dist/main.css'), false);
+    }
+
+});
+
+// Share globally with Inertia views
+add_action('after_setup_theme', function () {
+    Inertia::share([
+        'site' => [
+            'name'        => get_bloginfo('name'),
+            'description' => get_bloginfo('description'),
+        ],
+    ]);
+});
+
+// Add Inertia version. Helps with cache busting
+add_action('after_setup_theme', function () {
+    $version = md5_file(get_stylesheet_directory() . '/dist/mix-manifest.json');
+
+    Inertia::version($version);
+});
